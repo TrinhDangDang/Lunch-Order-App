@@ -25,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,10 +43,13 @@ import com.example.lunchtray.model.OrderUiState
 @Composable
 fun CheckoutScreen(
     orderUiState: OrderUiState,
-    onNextButtonClicked: () -> Unit,
+    onNextButtonClicked: (String, String) -> Unit,
     onCancelButtonClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val lunchOrder = "Happy Lunch"
+    val orderSummary = stringResource(R.string.order_details,
+        orderUiState.entree?.name ?: "entree", orderUiState.sideDish?.name ?: "sidedish", orderUiState.accompaniment?.name ?: "accompaniment", orderUiState.orderTotalPrice)
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
@@ -58,9 +62,9 @@ fun CheckoutScreen(
         ItemSummary(item = orderUiState.sideDish, modifier = Modifier.fillMaxWidth())
         ItemSummary(item = orderUiState.accompaniment, modifier = Modifier.fillMaxWidth())
 
-        Divider(
-            thickness = dimensionResource(R.dimen.thickness_divider),
-            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_small))
+        HorizontalDivider(
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_small)),
+            thickness = dimensionResource(R.dimen.thickness_divider)
         )
 
         OrderSubCost(
@@ -92,7 +96,7 @@ fun CheckoutScreen(
             }
             Button(
                 modifier = Modifier.weight(1f),
-                onClick = onNextButtonClicked
+                onClick = {onNextButtonClicked(lunchOrder, orderSummary)}
             ) {
                 Text(stringResource(R.string.submit).uppercase())
             }
@@ -138,7 +142,7 @@ fun CheckoutScreenPreview() {
             orderTax = 1.00,
             orderTotalPrice = 16.00
         ),
-        onNextButtonClicked = {},
+        onNextButtonClicked = {_, _ -> },
         onCancelButtonClicked = {},
         modifier = Modifier
             .padding(dimensionResource(R.dimen.padding_medium))

@@ -20,9 +20,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
@@ -50,7 +53,8 @@ fun BaseMenuScreen(
 
     var selectedItemName by rememberSaveable { mutableStateOf("") }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+        .verticalScroll(rememberScrollState())) {
         options.forEach { item ->
             val onClick = {
                 selectedItemName = item.name
@@ -109,9 +113,9 @@ fun MenuItemRow(
                 text = item.getFormattedPrice(),
                 style = MaterialTheme.typography.bodyMedium
             )
-            Divider(
-                thickness = dimensionResource(R.dimen.thickness_divider),
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+            HorizontalDivider(
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium)),
+                thickness = dimensionResource(R.dimen.thickness_divider)
             )
         }
     }
